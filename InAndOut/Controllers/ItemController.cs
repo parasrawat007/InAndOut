@@ -25,5 +25,14 @@ namespace InAndOut.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Item item)
+        {
+            _db.Items.Add(item);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
