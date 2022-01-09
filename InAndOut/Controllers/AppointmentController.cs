@@ -8,9 +8,9 @@ namespace InAndOut.Controllers
 {
     public class AppointmentController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index() 
         {
-            return Ok(DateTime.Now.ToString());
+            return View();
         }
     }
 }
