@@ -21,5 +21,9 @@ namespace InAndOut.Controllers
             IEnumerable<Item> items = _db.Items;
             return View(items);
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }

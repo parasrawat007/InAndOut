@@ -1,4 +1,4 @@
-﻿@model IEnumerable<InAndOut.Models.Item>
+﻿@model IEnumerable<Item>
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,8 +9,8 @@
         <div class="col-6">
             <h2 class="text-primary">Borrowed Item List</h2>
         </div>
-        <div class="col-6">
-            Create New item
+        <div class="col-6 text-right" >
+            <a asp-action="Create" asp-controller="Item" class="btn btn-primary">Create New Item</a>
         </div>
     </div>
     <br />
