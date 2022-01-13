@@ -24,7 +24,7 @@ namespace InAndOut.Controllers
 
             foreach (var exp in expenses)
             {
-                exp.ExpenseType = _db.ExpenseTypes.FirstOrDefault(e => e.Id == exp.Id);
+                exp.ExpenseType = _db.ExpenseTypes.FirstOrDefault(e => e.Id == exp.ExpenseTypeId);
             }            
             return View(expenses);
         }
@@ -84,24 +84,31 @@ namespace InAndOut.Controllers
         public IActionResult Update(int? Id)
         {
             if (Id == null || Id == 0)
+                return NotFound();           
+            ExpenseVM vm = new ExpenseVM()
+            { 
+                Expense= _db.Expenses.Find(Id),
+                TypeDropDown=_db.ExpenseTypes.Select(e=>new SelectListItem(){ 
+                    Text=e.Name,
+                    Value=e.Id.ToString()
+                })
+            };
+            if (vm.Expense == null)
                 return NotFound();
-            var expense = _db.Expenses.Find(Id);
-            if (expense == null)
-                return NotFound();
-            return View(expense);
+            return View(vm);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(Expense expense)
+        public IActionResult Update(ExpenseVM vm)
         {
             if (ModelState.IsValid)
             {
-                _db.Expenses.Update(expense);
+                _db.Expenses.Update(vm.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(expense);
+            return View(vm);
         }
 
     }
