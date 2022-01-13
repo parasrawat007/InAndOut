@@ -1,5 +1,6 @@
 ﻿using InAndOut.Data;
 using InAndOut.Models;
+using InAndOut.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -29,20 +30,28 @@ namespace InAndOut.Controllers
                 Value=e.Id.ToString()
             });
 
+            ExpenseVM vm = new ExpenseVM()
+            {
+                Expense = new Expense(),
+                TypeDropDown= list
+            };
+
+
             ViewBag.TypeDropDown = list;
-            return View();
+            return View(vm);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Expense expense)
+        public IActionResult Create(ExpenseVM vm)
         {
             if (ModelState.IsValid)
             {
-                _db.Expenses.Add(expense);
+                _db.Expenses.Add(vm.Expense);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(expense);
+            return View(vm.Expense);
         }               
              
         public IActionResult Delete(int? Id)
