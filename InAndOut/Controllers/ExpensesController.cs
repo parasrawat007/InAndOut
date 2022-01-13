@@ -20,7 +20,12 @@ namespace InAndOut.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Expense> expenses = _db.Expenses;
+            IEnumerable<Expense> expenses = _db.Expenses.ToList();
+
+            foreach (var exp in expenses)
+            {
+                exp.ExpenseType = _db.ExpenseTypes.FirstOrDefault(e => e.Id == exp.Id);
+            }            
             return View(expenses);
         }
         public IActionResult Create()
